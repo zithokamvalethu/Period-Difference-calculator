@@ -4,24 +4,19 @@ import React from "react";
 function PeriodCalculator() {
   const [startDate, setStartDate] = React.useState({
     // date: new Date(),
-    date1: "",
-    date2: "",
+    date1: new Date(),
+    date2: new Date(),
   });
 
-  const getNumberOfDays = () => {
-    var date1 = new Date();
-    var date2 = new Date();
+  const getNumberOfDays = (e) => {
+    var date1 = e.target.value;
+    var date2 = e.target.value;
 
-    console.log(date1);
-    // One day in milliseconds
+    console.log("kamva".date1);
     let oneDay = 1000 * 60 * 60 * 24;
-
-    // Calculating the time difference between two dates
-    let diffInTime = date2.getTime() - date1.getTime();
-
-    // Calculating the no. of days between two dates
+    let diffInTime = date2 - date1;
     let diffInDays = Math.round(diffInTime / oneDay);
-
+    console.log("kamva", diffInDays);
     return diffInDays;
   };
 
@@ -50,10 +45,10 @@ function PeriodCalculator() {
         onChange={updateChangedValue}
       />{" "}
       <br />
-      <button onSubmit={getNumberOfDays} type="submit">
+      <button onSubmit={getNumberOfDays.diffInDays} type="submit">
         calculate period
       </button>
-      <span>{getNumberOfDays.daydiff}</span>
+      <span>{getNumberOfDays}</span>
     </form>
   );
 }
