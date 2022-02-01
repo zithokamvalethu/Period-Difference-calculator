@@ -1,40 +1,34 @@
 import "./App.css";
 import React from "react";
+import moment from "moment";
 
 function PeriodCalculator() {
   const [startDate, setStartDate] = React.useState({
     // date: new Date(),
     date1: "",
     date2: "",
+    time1: "",
+    time2: "",
   });
-  // console.log("period");
 
   const updateChangedValue = (e) => {
     setStartDate({
       ...startDate,
       [e.target.name]: e.target.value,
     });
-    // console.log("period", e.target.value);
-    // console.log(startDate.date1);
   };
 
-  const getNumberOfDays = () => {
-    var date1 = new Date( );
-    var date2 = new Date();
+  const getNumberOfDays = (e) => {
+    var m1 = moment("{admission}", "DD-MM-YYYY HH:mm");
+    var m2 = moment("{discharge}", "DD-MM-YYYY HH:mm");
+    var m3 = m2.diff(m1, "minutes");
+    // var m4 = m2.diff(m1, "h");
 
-    console.log(date1);
-    // One day in milliseconds
-    let oneDay = 1000 * 60 * 60 * 24;
-
-    // Calculating the time difference between two dates
-    let diffInTime = date2.getTime() - date1.getTime();
-
-    // Calculating the no. of days between two dates
-    let diffInDays = Math.round(diffInTime / oneDay);
-
-    return diffInDays;
+    var numdays = Math.floor(m3 / 1440);
+    var numhours = Math.floor((m3 % 1440) / 60);
+    var numminutes = Math.floor((m3 % 1440) % 60);
+    return numdays + " day(s) " + numhours + "h " + numminutes + "m";
   };
-
   return (
     <form className="container">
       <label>oldest Date</label>
@@ -43,7 +37,7 @@ function PeriodCalculator() {
         onChange={updateChangedValue}
         type="date"
         value={startDate.date1}
-      // format="yyyy-MM-dd"
+        // format="yyyy-MM-dd"
       />{" "}
       <br />
       <label>Newest Date</label>
@@ -54,11 +48,12 @@ function PeriodCalculator() {
         onChange={updateChangedValue}
       />{" "}
       <br />
-      <button onSubmit={getNumberOfDays.diffInDays} type="submit">
+      <button onSubmit={getNumberOfDays} type="submit">
         calculate period
       </button>
-      <span>{getNumberOfDays}</span>
+      <span>{getNumberOfDays.daydiff}</span>
     </form>
   );
 }
+
 export default PeriodCalculator;
