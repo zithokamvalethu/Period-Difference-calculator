@@ -4,20 +4,23 @@ import React from "react";
 function PeriodCalculator() {
   const [startDate, setStartDate] = React.useState({
     // date: new Date(),
-    date1: new Date(),
-    date2: new Date(),
+    date1: "",
+    date2: "",
   });
+  const [date, setDate] = React.useState([]);
 
   const getNumberOfDays = (e) => {
-    var date1 = e.target.value;
-    var date2 = e.target.value;
+    e.preventDefault();
+    var date1 = new Date(date);
+    var date2 = new Date(setDate);
+    console.log("lethu", date);
 
-    console.log("kamva".date1);
-    let oneDay = 1000 * 60 * 60 * 24;
-    let diffInTime = date2 - date1;
-    let diffInDays = Math.round(diffInTime / oneDay);
-    console.log("kamva", diffInDays);
-    return diffInDays;
+    let diffInTime = new Date.getTime(date2) - new Date.getTime(date1);
+    // console.log(diffInTime);
+    let diffInDays = diffInTime;
+    let oneDay = (diffInDays / 1000) * 60 * 60 * 24;
+    console.log("kamva", oneDay);
+    return oneDay;
   };
 
   const updateChangedValue = (e) => {
@@ -25,6 +28,7 @@ function PeriodCalculator() {
       ...startDate,
       [e.target.name]: e.target.value,
     });
+    console.log("hi", e.target.value);
   };
 
   return (
@@ -45,10 +49,10 @@ function PeriodCalculator() {
         onChange={updateChangedValue}
       />{" "}
       <br />
-      <button onSubmit={getNumberOfDays.diffInDays} type="submit">
+      <button onClick={getNumberOfDays} type="submit">
         calculate period
       </button>
-      <span>{getNumberOfDays}</span>
+      {/* <span>{getNumberOfDays}</span> */}
     </form>
   );
 }
