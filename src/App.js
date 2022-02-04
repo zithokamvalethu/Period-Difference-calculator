@@ -18,37 +18,38 @@ function PeriodCalculator() {
     var date2 = new Date(endingDate);
     // console.log("lethu", startingDate);
 
-    let diffInTime = Number(date2.getTime()) - Number(date1.getTime());
-    let oneDay = diffInTime / (1000 * 60 * 60 * 24);
-    console.log("kamva", oneDay / 365);
-    return oneDay / 365;
+    let years = parseInt((date2 - date1) / (1000 * 60 * 60 * 24) / 365);
+    let months = parseInt(((date2 - date1) / (1000 * 3600 * 24)) % 31);
+    let days = parseInt(((date2 - date1) / (1000 * 60 * 60 * 24)) % 24);
+    // let day = Math.floor(days * 31);
+    // console.log('day',days, day);
+    let hours = parseInt((Math.abs(date2 - date1) / (1000 * 60 * 60)) % 24);
+    let minutes = parseInt(
+      (Math.abs(date2.getTime() - date1.getTime()) / (1000 * 60)) % 60
+    );
+    let seconds = parseInt(
+      (Math.abs(date2.getTime() - date1.getTime()) / 1000) % 60
+    );
+
+    return (
+      years +
+      " years" +
+      " " +
+      months +
+      " months" +
+      " " +
+      days +
+      " days" +
+      " " +
+      hours +
+      " hours" +
+      " " +
+      minutes +
+      " minutes " +
+      seconds +
+      " seconds"
+    );
   };
-
-  //   Considering
-  // 1 Year => 365 Days
-  // 1 MONTH => 30 Days
-  // 1 WEEK => 7 Days
-  // value => NUMBER OF DAYS
-
-  function parseDays(value) {
-    var year, months, week, days;
-
-    year = value >= 365 ? Math.floor(value / 365) : 0;
-    value = year ? value - year * 365 : value;
-
-    months = value >= 30 ? Math.floor((value % 365) / 30) : 0;
-    value = months ? value - months * 30 : value;
-
-    week = value >= 7 ? Math.floor((value % 365) / 7) : 0;
-    value = week ? value - week * 7 : value;
-
-    days = value < 7 ? Math.floor((value % 365) % 7) : 0;
-
-    console.log("years = ", year);
-    console.log("months = ", months);
-    console.log("weeks = ", week);
-    console.log("days = ", days);
-  }
 
   const updateChangedValue = (e) => {
     setStartDate({
@@ -77,14 +78,19 @@ function PeriodCalculator() {
           onChange={updateChangedValue}
         />{" "}
         <br />
-        <button onClick={handleSubmit} type="submit">
+        <button
+          onClick={handleSubmit}
+          type="submit"
+          className="button-30"
+          role="button"
+        >
           calculate period
         </button>
       </form>
       <div className="panel-footer">
-        <p disabled>{startDate.startingDate}</p> <br />
-        <p disabled>{startDate.endingDate}</p> <br />
-        <p disabled>{date}</p>
+        <span>{startDate.startingDate}</span> <br />
+        <span>{startDate.endingDate}</span> <br />
+        <span>{date}</span>
       </div>
     </div>
   );
